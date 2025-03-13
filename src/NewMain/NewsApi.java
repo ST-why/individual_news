@@ -16,29 +16,9 @@ import java.util.Map;
 
 public class NewsApi {
     public static void main(String[] args) {
-        String clientId = "4tQ5f8oM6HPJG4tA3N4H"; //애플리케이션 클라이언트 아이디
-        String clientSecret = "cqIzSr0kYc"; //애플리케이션 클라이언트 시크릿
-
-
-        String text = null;
-        try {
-            text = URLEncoder.encode("한국 경제", "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("검색어 인코딩 실패",e);
-        }
-
-
-        String apiURL = "https://openapi.naver.com/v1/search/news?query=" + text;    // JSON 결과
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
 
-
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        String responseBody = get(apiURL,requestHeaders);
-
-        String filename = "news_data.json";
-        FileManager.writeToFile(responseBody, filename);
+        String filename = fetchAndSaveNews("한국경제");
 
         String fileData = FileManager.readFromFile(filename);{
             if(fileData != null){
@@ -109,4 +89,25 @@ public class NewsApi {
             throw new RuntimeException("API 응답을 읽는 데 실패했습니다.", e);
         }
         }
+
+    private static String fetchAndSaveNews (String query){
+        String text;
+        try {
+            text = URLEncoder.encode(query, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("검색어 인코딩 실패",e);
+        }
+        String apiURL = "https://openapi.naver.com/v1/search/news?query=" + text;    // JSON 결과
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("X-Naver-Client-Id", "4tQ5f8oM6HPJG4tA3N4H");
+        requestHeaders.put("X-Naver-Client-Secret", "cqIzSr0kYc");
+        String responseBody = get(apiURL,requestHeaders);
+
+        // JSON 데이터를 파일에 저장
+        String filename = "news_data.json";
+        FileManager.writeToFile(responseBody, filename);
+        return filename;
+
+    }
+
     }
