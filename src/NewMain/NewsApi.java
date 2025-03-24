@@ -1,10 +1,5 @@
 package NewMain;// 네이버 검색 API 예제 - 블로그 검색
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -15,25 +10,6 @@ import java.util.Map;
 
 
 public class NewsApi {
-    public static void main(String[] args) {
-        //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
-
-        String filename = fetchAndSaveNews("한국경제");
-
-        String fileData = FileManager.readFromFile(filename);{
-            if(fileData != null){
-                NewsResponse newsResponse = NewsParser.parseJson(fileData);
-                for (NewsItems news : newsResponse.getItems()){
-                    System.out.println("제목: " + news.getTitle());
-                    System.out.println("내용: " + news.getDescription());
-                    System.out.println("----------------------------------");
-                }
-            } else {
-                System.err.println(" 파일을 읽는 데 실패 했습니다");
-            }
-        }
-    }
-
 
     private static String get(String apiUrl, Map<String, String> requestHeaders){
         HttpURLConnection con = connect(apiUrl);
@@ -90,7 +66,7 @@ public class NewsApi {
         }
         }
 
-    private static String fetchAndSaveNews (String query){
+        public static String fetchAndSaveNews (String query){
         String text;
         try {
             text = URLEncoder.encode(query, "UTF-8");

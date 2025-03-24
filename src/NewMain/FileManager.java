@@ -22,5 +22,5 @@ public class FileManager {
             System.err.println(" 파일 읽기 중 오류 발생: " + e.getMessage() ) ;
             return null;
         }
-    } // 파일에서 데이터를 읽어오는 메서드, Files.write()dhk Files.readAllBytes()는 NIO API에서 제공하는 파일 입출력 방법
+    } // 파일에서 데이터를 읽어오는 메서드, Files.write()와 Files.readAllBytes()는 NIO API에서 제공하는 파일 입출력 방법
 }
